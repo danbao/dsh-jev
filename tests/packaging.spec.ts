@@ -41,7 +41,9 @@ describe('package manifest', () => {
     const files = manifest().files as string[]
     expect(files).toContain('dist')
     expect(files).toContain('cordis.patch.yml')
+    expect(files).toContain('cordis.yml')
     expect(files).toContain('README.md')
+    expect(files).toContain('README.zh-CN.md')
     expect(files).toContain('LICENSE')
   })
 
@@ -76,10 +78,40 @@ describe('cordis.patch.yml', () => {
 })
 
 describe('bundled documentation', () => {
-  it('documents the state_json override and the two backends', () => {
+  it('documents the state_json override and the two backends in the default English README', () => {
     const readme = readFileSync(`${root}README.md`, 'utf8')
     expect(readme).toMatch(/state_json/)
     expect(readme).toMatch(/openrouter/)
     expect(readme).toMatch(/typesafe/)
+  })
+
+  it('ships the Chinese translation with the same coverage', () => {
+    const zh = readFileSync(`${root}README.zh-CN.md`, 'utf8')
+    expect(zh).toMatch(/state_json/)
+    expect(zh).toMatch(/openrouter/)
+    expect(zh).toMatch(/typesafe/)
+    // The translation must not silently fall behind on the tool contract.
+    for (const field of ['backend', 'apiKeyEnv', 'timeoutMs', 'budgetMs', 'maxStateChars']) {
+      expect(zh).toContain(field)
+      expect(readFileSync(`${root}README.md`, 'utf8')).toContain(field)
+    }
+  })
+
+  it('links the two READMEs to each other in both directions', () => {
+    const en = readFileSync(`${root}README.md`, 'utf8')
+    const zh = readFileSync(`${root}README.zh-CN.md`, 'utf8')
+    expect(en).toMatch(/\[中文说明\]\(\.\/README\.zh-CN\.md\)/)
+    expect(zh).toMatch(/\[English\]\(\.\/README\.md\)/)
+  })
+
+  it('keeps English as the packaged default', () => {
+    const files = manifest().files as string[]
+    expect(files).toContain('README.md')
+    expect(files).toContain('README.zh-CN.md')
+    // The default README is English prose; the only CJK in it is the deliberate
+    // language-switcher link label.
+    const en = readFileSync(`${root}README.md`, 'utf8')
+    const prose = en.replace(/\[中文说明\]\(\.\/README\.zh-CN\.md\)/g, '')
+    expect(/[\u4e00-\u9fff]/.test(prose)).toBe(false)
   })
 })

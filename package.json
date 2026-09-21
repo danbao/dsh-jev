@@ -15,7 +15,9 @@
   "files": [
     "dist",
     "cordis.patch.yml",
+    "cordis.yml",
     "README.md",
+    "README.zh-CN.md",
     "LICENSE"
   ],
   "engines": {
