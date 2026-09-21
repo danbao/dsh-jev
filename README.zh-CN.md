@@ -70,8 +70,8 @@ jev_ask({
 
 ```sh
 cd /path/to/dsh-jev
-npm install
-npm run build          # dsh 从 dist/ 加载，安装前必须先构建
+pnpm install
+pnpm build          # dsh 从 dist/ 加载，安装前必须先构建
 
 dsh plugin --profile <name> add /path/to/dsh-jev
 dsh --profile <name> --dump-config    # 应能看到 "# == dsh-jev" 层与 jev 行
@@ -80,7 +80,7 @@ dsh --profile <name> --dump-config    # 应能看到 "# == dsh-jev" 层与 jev �
 开发模式（不装进 profile，直接 `--patch` 覆盖）：
 
 ```sh
-npm run dev            # tsc --watch
+pnpm dev            # tsc --watch
 dsh web --patch ./cordis.patch.yml
 ```
 
@@ -172,15 +172,15 @@ src/
     questions.ts        本地问题/状态校验 + 构造器
     validate.ts         回复的边界校验（严格）
     client.ts           fetch 客户端：重试、预算、超时、归因头
-tests/                  78 个测试，全部注入 fetch，不触网
+tests/                  81 个测试，全部注入 fetch，不触网
 ```
 
 ## 测试与验证
 
 ```sh
-npm run typecheck   # src + tests，严格模式（noUncheckedIndexedAccess 等）
-npm test            # 78 个测试（pretest 会先构建）
-npm run build
+pnpm typecheck   # src + tests，严格模式（noUncheckedIndexedAccess 等）
+pnpm test            # 81 个测试（会先构建）
+pnpm build
 ```
 
 测试里包含一个**真的端到端**用例：在真实 Cordis Context 上挂载真实的 `ToolRuntime`，

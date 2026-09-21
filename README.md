@@ -80,8 +80,8 @@ English | [中文说明](./README.zh-CN.md)
 
 ```sh
 cd /path/to/dsh-jev
-npm install
-npm run build          # dsh loads from dist/, so build before installing
+pnpm install
+pnpm build          # dsh loads from dist/, so build before installing
 
 dsh plugin --profile <name> add /path/to/dsh-jev
 dsh --profile <name> --dump-config    # expect the "# == dsh-jev" layer and the jev row
@@ -90,7 +90,7 @@ dsh --profile <name> --dump-config    # expect the "# == dsh-jev" layer and the 
 Development mode (no profile install, override with `--patch`):
 
 ```sh
-npm run dev            # tsc --watch
+pnpm dev            # tsc --watch
 dsh web --patch ./cordis.patch.yml
 ```
 
@@ -189,15 +189,15 @@ src/
     questions.ts        local question/state validation and builders
     validate.ts         strict boundary validation of the reply
     client.ts           fetch client: retries, budget, timeout, attribution headers
-tests/                  78 tests, every one injecting fetch; nothing touches the network
+tests/                  81 tests, every one injecting fetch; nothing touches the network
 ```
 
 ## Tests and verification
 
 ```sh
-npm run typecheck   # src + tests, strict (noUncheckedIndexedAccess and friends)
-npm test            # 78 tests (builds first, via pretest)
-npm run build
+pnpm typecheck   # src + tests, strict (noUncheckedIndexedAccess and friends)
+pnpm test            # 81 tests (builds first)
+pnpm build
 ```
 
 One test is genuinely end to end: it mounts the real `ToolRuntime` on a real Cordis context,

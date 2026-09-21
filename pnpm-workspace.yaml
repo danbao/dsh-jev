@@ -1,0 +1,6 @@
+# Standalone package: no workspace members, but pnpm still reads this file.
+packages: []
+
+# vitest pulls esbuild, whose install script pnpm blocks unless allowed.
+allowBuilds:
+  esbuild: true

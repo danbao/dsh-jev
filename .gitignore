@@ -5,3 +5,7 @@ dist/
 .env
 .env.local
 *.tgz
+
+# This repository builds with pnpm; pnpm-lock.yaml is the committed lock file.
+package-lock.json
+yarn.lock
