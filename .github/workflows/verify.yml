@@ -1,0 +1,25 @@
+name: verify
+
+# Test-only CI: install, typecheck, test, build. No publish or deploy step.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      # `pretest` builds first: the packaging test inspects the built artifact.
+      - run: npm test

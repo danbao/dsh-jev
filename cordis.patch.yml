@@ -1,0 +1,16 @@
+# dsh-jev bundle layer. Adding this bundle to a profile inserts the plugin row.
+#
+# Defaults are OpenRouter + the OPENROUTER_API_KEY credential reference, so the
+# row needs no configuration to work once that key is configured. Override the
+# row's `config` in your profile (see cordis.yml for every field):
+#
+#   - id: jev
+#     name: 'dsh-jev'
+#     config:
+#       backend: typesafe
+#       apiKeyEnv: TYPESAFE_API_KEY
+#       model: jev-latest
+#
+- insert:
+    - id: jev
+      name: 'dsh-jev'

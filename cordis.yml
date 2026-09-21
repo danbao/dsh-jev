@@ -1,0 +1,43 @@
+# dsh-jev 组合配置示例
+#
+# 运行（把本文件作为 profile 的 cordis.yml，或与 dsh 组合树合并）:
+#   dsh --config ./cordis.yml
+#
+# 密钥不存在这里：apiKeyEnv 只是一个“凭据引用”（环境变量名），由
+# credentials 服务按调用解析，顺序为 credentials 服务 → 进程环境 → .env。
+# 因此轮换密钥不需要重启。
+#
+#   OPENROUTER_API_KEY  - backend=openrouter（默认）时使用
+#   TYPESAFE_API_KEY    - backend=typesafe 时使用
+
+- insert:
+    - id: jev
+      name: 'dsh-jev'
+      config:
+        # openrouter（默认，推荐）| typesafe
+        backend: openrouter
+
+        # 凭据引用（环境变量名）。留空则按 backend 取默认值：
+        #   openrouter -> OPENROUTER_API_KEY
+        #   typesafe   -> TYPESAFE_API_KEY
+        # apiKeyEnv: OPENROUTER_API_KEY
+
+        # 模型。留空则按 backend 取默认值：
+        #   openrouter -> jev-1.13       （OpenRouter 会路由到 typesafe/jev-1.13）
+        #   typesafe   -> jev-latest
+        # 也可以钉死版本，例如 OpenRouter 上写 typesafe/jev-1.13-20260917。
+        # model: jev-1.13
+
+        # 自建网关或代理时覆盖 baseURL（会拼接 /v1/systemone）：
+        # baseURL: https://openrouter.ai/api
+
+        timeoutMs: 20000      # 单次尝试超时
+        budgetMs: 45000       # 整通（含重试与退避）预算
+        maxRetries: 1         # 首次失败后的重试次数
+
+        maxQuestions: 64      # 单次调用最多问题数
+        maxStateChars: 96000  # state 序列化后的字符上限
+        maxInstructionChars: 8000
+
+        appName: dsh-jev     # OpenRouter 归因头 X-Title
+        logRequests: true
